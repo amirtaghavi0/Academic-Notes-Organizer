@@ -13,7 +13,7 @@
     <div class="nav-right">
         {% if user.is_authenticated %}
             <span>Hi, {{ user.username }}</span>
-            <form id="logout"  action="{% url 'logout' %}" method="post">
+            <form   action="{% url 'logout' %}" method="post" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="link-button">Logout</button>
 
