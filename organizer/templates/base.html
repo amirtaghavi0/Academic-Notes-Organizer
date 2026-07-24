@@ -19,8 +19,8 @@
 
             </form>
         {% else %}
-            <a href="">Sign up</a>
-            <a href="{url 'login'}">Login</a>
+            <a href="{% url 'signup' %}">Sign up</a>
+            <a href="{%url 'login'%}">Login</a>
         {% endif %}
     </div>
 
