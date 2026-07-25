@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render , get_object_or_404 , redirect
-from .forms import SignUpForm
+from .forms import SignUpForm , CourseForm
 from django.contrib.auth import login
 from .models import Course
 # Create your views here.
@@ -23,9 +23,28 @@ def signup(request):
 @login_required
 def course_list(request):
     courses = Course.objects.filter(user = request.user).prefetch_related("notes")
-    return render(request , 'notes/course_list.html' , {"course" : courses})
+    return render(request , 'notes/course_list.html' , {"courses" : courses})
     
     
 @login_required
 def course_create(request):
+    if request.method == "POST":
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            course= form.save(commit = False)
+            course.user = request.user
+            course.save()
+            return redirect("course_list")
+    else:
+        form = CourseForm()
+    return render(request , "notes/course_form.html" , {"form" : form , 'mode' : "create"})
+
+
+
+def course_edit(request):
+    return render(request , "notes/course_form.html" , {"mode" : "edit"})
+
+
+
+def course_detail(request):
     pass
