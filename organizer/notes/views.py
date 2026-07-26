@@ -83,7 +83,11 @@ def note_detail(request , note_id):
 
 
 def note_delete(request, note_id):
-    return render(request , 'notes/note_confirm_delete.html')
+    note = get_object_or_404(Note , id = note_id , course__user=request.user)
+    if request.method == "POST":
+        note.delete()
+        return redirect('course_detail' ,course_id=note.course.id)
+    return render(request , 'notes/note_confirm_delete.html', {"note": note})
 
 
 def note_edit(request, note_id):
