@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Delete Course{% endblock %}
+{% block content %}
+    <h1>Delete "{{course.title}}" ?</h1>
+    <p>This will also delete all {{course.notes.count}} notes inside it</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn danger">Yes, delete</button>
+        <a class="btn secondary" href="{% url 'course_detail' course.id %}">Cancel</a>
+    </form>
+
+{% endblock %}

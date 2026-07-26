@@ -1,0 +1,42 @@
+{%  extends 'base.html' %}
+{% block title %}{{course.title}}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>📂 {{course.title}}</h1>
+        <div>
+            <a class="btn"  href="{% url 'note_create' course.id %}">+ New Note</a>
+            <a class="btn secondary"  href="{% url 'course_edit' course.id %}">Edit</a>
+            <a class="btn danger" href="{% url 'course_delete' course.id %}">Delete</a>
+        </div>
+    </div>
+    {% if course.description %} <p>{{course.description}}</p>{% endif %}
+
+    <h3>Notes</h3>
+
+    {% if notes %}
+        <div class="card-grid">
+            {% for note in notes %}
+                <div card note-card>
+                    <div class="card-header">
+                        <span class="card-icon">📄</span>
+                        <a class="card-title" href="{% url 'note_detail' note.id $}">{{note.title}}</a>
+                    </div>
+
+                    {% if note.description %}
+                        <p class="card-dessc">{{note.description}}</p>
+                    {% endif %}
+
+                    <div class="card-footer">
+                        <span class="muted">{{note.create}}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="muted">No notes in this course</p>
+    {% endif %}
+
+    <p><a href="{% url 'course_list' %}"> Back to course list</a></p>
+
+{% endblock %}

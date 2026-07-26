@@ -46,5 +46,24 @@ def course_edit(request):
 
 
 
-def course_detail(request):
+def course_detail(request, course_id):
+    course = get_object_or_404(Course , id = course_id , user = request.user)
+    notes = course.notes.all()
+    return render(request , "notes/course_detail.html" , {"course" : course , "notes" : notes})
+    
+
+def course_delete(request , course_id):
+    course = get_object_or_404(Course , id = course_id , user = request.user)
+    if request.method == "POST":
+        course.delete()
+        return redirect("course_list")
+    return render(request , 'notes/course_confirm_delete.html' , {"course" : course})
+
+
+
+def note_create(request , course_id):
+    pass
+
+
+def note_detail(request , note_id):
     pass
