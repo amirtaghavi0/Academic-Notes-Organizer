@@ -42,7 +42,17 @@ def course_create(request):
 
 
 def course_edit(request, course_id):
-    return render(request , "notes/course_form.html" , {"mode" : "edit"})
+    course = get_object_or_404(Course , id = course_id , user = request.user)
+    if request.method == "POST":
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('course_detail' , course_id = course.id)
+    else:
+            form = CourseForm(instance=course)
+    return render(request , 'notes/course_form.html' , {"form" : form, "mode" : "edit" , "course" : course})
+    
+ 
 
 
 
@@ -91,4 +101,12 @@ def note_delete(request, note_id):
 
 
 def note_edit(request, note_id):
-    return render(request , 'notes/note_form.html' , {'mode' : "edit"})
+    note = get_object_or_404(Note , id = note_id , course__user = request.user)
+    if request.method == "POST":
+        form = NoteForm(request.POST , request.FILRES, instance=note) 
+        if form.is_valid():
+            form.save
+            return redirect('note_detail' , note_id = note.id)
+    else:
+            form = NoteForm(instance=note)
+    return render(request , 'notes/note_form.html' , {'form': form,"note":note,  'mode' : "edit" , "course" : note.course})
