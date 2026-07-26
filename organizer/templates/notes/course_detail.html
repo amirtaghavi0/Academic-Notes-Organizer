@@ -20,7 +20,7 @@
                 <div class='card note-card'>
                     <div class="card-header">
                         <span class="card-icon">📄</span>
-                        <a class="card-title" href="{% url 'note_detail' note.id $}">{{note.title}}</a>
+                        <a class="card-title" href="{% url 'note_detail' note.id %}">{{note.title}}</a>
                     </div>
 
                     {% if note.description %}

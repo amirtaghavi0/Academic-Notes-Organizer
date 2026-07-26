@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render , get_object_or_404 , redirect
 from .forms import SignUpForm , CourseForm ,NoteForm
 from django.contrib.auth import login
-from .models import Course
+from .models import Course , Note 
 # Create your views here.
 
 
@@ -78,11 +78,12 @@ def note_create(request , course_id):
 
 
 def note_detail(request , note_id):
-    pass
+    note = get_object_or_404(Note , id = note_id  ,course__user = request.user)
+    return render(request , 'notes/note_detail.html' , {"note": note})
 
 
 def note_delete(request, note_id):
-    pass
+    return render(request , 'notes/note_confirm_delete.html')
 
 
 def note_edit(request, note_id):

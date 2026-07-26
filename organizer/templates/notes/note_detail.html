@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{{note.title}}{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>📄 {{note.title}}</h1>
+        <div>
+            <a class="btn secondary" href="{% url 'note_edit' note.id%}">Edit</a>
+            <a class="btn danger" href="{% url 'note_delete' note.id %}">Delete</a>
+        </div>
+    </div>
+
+    <p class="muted">
+        Course: <a href="{% url 'course_detail' note.course.id %}">{{note.course.title}}</a>
+        create {{note.cerated}}
+    </p>
+
+    {% if note.description %} <p>{{note.description}}</p>{% endif %}
+
+    <div class="note-content">{{note.content}}</div>
+
+    {% if note.file %} <p><a href="{{note.file.url}}" target="_blank">Download file</a></p> {% endif %}
+
+    <p><a href="{% url 'course_detail' note.course.id %}"> Back to {{note.course.title}}</a></p>
+{% endblock %}
