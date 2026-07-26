@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render , get_object_or_404 , redirect
-from .forms import SignUpForm , CourseForm
+from .forms import SignUpForm , CourseForm ,NoteForm
 from django.contrib.auth import login
 from .models import Course
 # Create your views here.
@@ -41,7 +41,7 @@ def course_create(request):
 
 
 
-def course_edit(request):
+def course_edit(request, course_id):
     return render(request , "notes/course_form.html" , {"mode" : "edit"})
 
 
@@ -62,8 +62,28 @@ def course_delete(request , course_id):
 
 
 def note_create(request , course_id):
-    pass
+    course = get_object_or_404(Course , id=course_id , user = request.user)
+    if request.method == "POST":
+        form = NoteForm(request.POST , request.FILES)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.course = course
+            note.save()
+            return redirect("course_detail" , course_id = course.id)
+    else:
+         form = NoteForm()
+    return render(request , 'notes/note_form.html' , {"form" : form, "course": course , "mode" : "create"} )
+    
+
 
 
 def note_detail(request , note_id):
     pass
+
+
+def note_delete(request, note_id):
+    pass
+
+
+def note_edit(request, note_id):
+    return render(request , 'notes/note_form.html' , {'mode' : "edit"})

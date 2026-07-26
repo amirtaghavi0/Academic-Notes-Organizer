@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} {% if mode == "edit" %}Edit Note{% else %}New Note {% endif %}{% endblock %}
+{% block content %}
+    <h1>{% if mode == "edit" %}Edit Note {% else %}New Note in this course{% endif %}<h1>
+    <form method="post" , enctype="multipart/form-data" , class="form">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn" type="submit">save</button>
+    </form>
+{% endblock %}

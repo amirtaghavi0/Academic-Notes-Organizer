@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User , Course
+from .models import User , Course , Note
 
 class SignUpForm(UserCreationForm):
     class Meta:
@@ -16,3 +16,13 @@ class CourseForm(forms.ModelForm):
         widgets = {
             'description' : forms.Textarea(attrs={"rows" : 3}),
         }
+
+
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ['title' , "description" , 'content' , 'file']
+        widgets = {
+            'content' : forms.Textarea(attrs = {'rows': 10}),
+                   }
