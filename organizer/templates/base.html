@@ -9,7 +9,13 @@
 </head>
 <body>
    <nav class="navbar">
-    <a href="menu">📚 Academic Notes Organizer</a>
+    <a class="menu" href="{% url 'course_list' %}">📚 Academic Notes Organizer</a>
+    
+    <form class="search-form" action="{% url 'search' %}" method="get">
+        <input type="text" name="q" placeholder="Search notes..." value="{{request.GET.q}}">
+        <button type="submit">Search</button>
+    </form>
+
     <div class="nav-right">
         {% if user.is_authenticated %}
             <span>Hi, {{ user.username }}</span>

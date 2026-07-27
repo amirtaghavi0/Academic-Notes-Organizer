@@ -12,5 +12,6 @@ urlpatterns =[
     path('notes/<int:note_id>/' , note_detail , name="note_detail"),
     path('notes/<int:note_id>/edit/' , note_edit , name="note_edit"),
     path('notes/<int:note_id>/delete/' , note_delete , name="note_delete"),
+    path('search/' , search , name='search'),
     
 ]

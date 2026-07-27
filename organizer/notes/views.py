@@ -5,7 +5,7 @@ from .forms import SignUpForm , CourseForm ,NoteForm
 from django.contrib.auth import login
 from .models import Course , Note 
 # Create your views here.
-
+from django.db.models import Q 
 
 def signup(request):
     if request.method == "POST":
@@ -40,7 +40,7 @@ def course_create(request):
     return render(request , "notes/course_form.html" , {"form" : form , 'mode' : "create"})
 
 
-
+@login_required
 def course_edit(request, course_id):
     course = get_object_or_404(Course , id = course_id , user = request.user)
     if request.method == "POST":
@@ -55,13 +55,13 @@ def course_edit(request, course_id):
  
 
 
-
+@login_required
 def course_detail(request, course_id):
     course = get_object_or_404(Course , id = course_id , user = request.user)
     notes = course.notes.all()
     return render(request , "notes/course_detail.html" , {"course" : course , "notes" : notes})
     
-
+@login_required
 def course_delete(request , course_id):
     course = get_object_or_404(Course , id = course_id , user = request.user)
     if request.method == "POST":
@@ -70,7 +70,7 @@ def course_delete(request , course_id):
     return render(request , 'notes/course_confirm_delete.html' , {"course" : course})
 
 
-
+@login_required
 def note_create(request , course_id):
     course = get_object_or_404(Course , id=course_id , user = request.user)
     if request.method == "POST":
@@ -86,12 +86,12 @@ def note_create(request , course_id):
     
 
 
-
+@login_required
 def note_detail(request , note_id):
     note = get_object_or_404(Note , id = note_id  ,course__user = request.user)
     return render(request , 'notes/note_detail.html' , {"note": note})
 
-
+@login_required
 def note_delete(request, note_id):
     note = get_object_or_404(Note , id = note_id , course__user=request.user)
     if request.method == "POST":
@@ -99,7 +99,7 @@ def note_delete(request, note_id):
         return redirect('course_detail' ,course_id=note.course.id)
     return render(request , 'notes/note_confirm_delete.html', {"note": note})
 
-
+@login_required
 def note_edit(request, note_id):
     note = get_object_or_404(Note , id = note_id , course__user = request.user)
     if request.method == "POST":
@@ -110,3 +110,11 @@ def note_edit(request, note_id):
     else:
             form = NoteForm(instance=note)
     return render(request , 'notes/note_form.html' , {'form': form,"note":note,  'mode' : "edit" , "course" : note.course})
+
+@login_required
+def search(request):
+    query = request.GET.get("q" , '').strip()
+    results = []
+    if query:
+        results = Note.objects.filter(course__user = request.user).filter(Q(title__icontains=query)| Q(content__icontains=query)).select_related("course")
+    return render(request , "notes/search_results.html" , {"query" : query , "results": results })

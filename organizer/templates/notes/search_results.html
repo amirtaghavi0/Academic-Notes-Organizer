@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Search{% endblock %}
+{% block content %}
+    <h1>Search results for "{{query}}"</h1>
+    {% if results %}
+        <ul>
+          {% for note in results %}
+            <li >
+                📄<a href="{% url 'note_detail' note.id %}">{{note.title}}</a>
+                <span class="muted">_ in {{note.course.title}}</span>
+            </li>
+          {% endfor %}
+        </ul>
+    {% elif query %}
+        <p class="muted">No notes matched your search</p>
+    {% else %}
+        <p class="muted">Type something in the search box</p>
+    {% endif %}
+{% endblock %}
