@@ -23,7 +23,10 @@ def signup(request):
 @login_required
 def course_list(request):
     courses = Course.objects.filter(user = request.user).prefetch_related("notes")
-    return render(request , 'notes/course_list.html' , {"courses" : courses})
+    tag = request.GET.get('tag' , '').strip()
+    if tag:
+        courses  = courses.filter(notes__tag__icontains=tag).distinct()
+    return render(request , 'notes/course_list.html' , {"courses" : courses , "tag" : tag})
     
     
 @login_required

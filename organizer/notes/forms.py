@@ -22,7 +22,7 @@ class CourseForm(forms.ModelForm):
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ['title' , "description" , 'content' , 'file']
+        fields = ['title' , "description" , 'content' , 'file' , "tag"]
         widgets = {
             'content' : forms.Textarea(attrs = {'rows': 10}),
                    }

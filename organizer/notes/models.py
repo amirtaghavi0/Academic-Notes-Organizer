@@ -30,6 +30,7 @@ class Note(models.Model):
     file  = models.FileField(upload_to="notes_file/" , help_text="Optional PDF, image or Word file.", blank = True , null = True)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)
+    tag = models.CharField(max_length = 100,blank=True , null=True)
 
     def __str__(self):
         return self.title

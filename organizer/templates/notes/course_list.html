@@ -7,6 +7,12 @@
         <a class="btn" href="{% url 'course_create'  %}">+ New Course</a>
     </div>
 
+    <form class="filter-form"  method="get">
+        <input type="text"name="tag" placeholder="filter by note tag..." value="tag">
+        <button type="submit">Filter</button>
+        {% if tag %} <a href="{% url 'course_list' %}">Clear</a>{% endif %}
+    </form>
+
     {% if courses %}
         <div class="card-grid">
             {% for course in courses %}
